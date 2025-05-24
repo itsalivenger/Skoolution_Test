@@ -8,6 +8,7 @@ import "katex/dist/katex.min.css";
 import { getFromStorage } from "@/app/utils/storage";
 import { selectNextItem, updateTheta, finalize, update_b, update_a } from "@/app/utils/helper_functions";
 import { useRouter } from "next/navigation";
+import PopupModal from "../modal_box";
 
 export default function Test1() {
 	/* ────────────── state ────────────── */
@@ -25,19 +26,26 @@ export default function Test1() {
 	const [theta, setTheta] = useState(0);         // θ courant
 	const [itemsUsed, setItemsUsed] = useState([]); // objets déjà posés (pour updateΘ)
 
+	const [currentChapter, setcurrentChapter] = useState();
+	const [showPopup, setShowPopup] = useState(false);
+
 	const router = useRouter();
 
-	const MAX_QUESTIONS = 15;
+	const MAX_QUESTIONS = 10;
 
 	useEffect(() => {
 		try {
 			const currentTest = getFromStorage("currentTest");
+			const chapter = getFromStorage('current_chapter');
+
 			if (!currentTest?.questions?.length)
 				throw new Error("Aucune question trouvée dans le test.");
 
+			if (chapter) {
+				setcurrentChapter(chapter);
+			}
 			setPool(currentTest.questions);
 
-			// 👉 first pick (trivial for now)
 			const first = pickFirstQuestion(currentTest.questions);
 			setCurrentQ(first);
 			setAsked([first]);
@@ -73,8 +81,8 @@ export default function Test1() {
 		// update theta et b
 		const newTheta = updateTheta(theta, newResponses, newItems);
 		const user_id = getFromStorage('user_id');
-		update_b({currentQuest: currentQ, theta, r: isCorrect, question_num: asked.length});
-		update_a({currentQuest: currentQ, theta, r: isCorrect, user_id });
+		update_b({ currentQuest: currentQ, theta, r: isCorrect, question_num: asked.length });
+		update_a({ currentQuest: currentQ, theta, r: isCorrect, user_id });
 
 		// 3. Mettre à jour les états React
 		setAnswers(newResponses);
@@ -88,9 +96,9 @@ export default function Test1() {
 			console.log("Finished – θ final:", newTheta);
 			const user_id = getFromStorage('user_id')
 			const competence_id = getFromStorage('current_competence_id')
-			finalize({ user_id, competence_id, theta })
+			finalize({ user_id, competence_id, theta, setShowPopup })
 
-			router.push('/subjects/math/lessons/');
+			// router.push('/subjects/math/lessons/');
 			return;
 		}
 
@@ -101,7 +109,7 @@ export default function Test1() {
 		});
 
 
-		
+
 		if (!nextQ) {
 			console.warn("No more questions available");
 			return;
@@ -151,10 +159,10 @@ export default function Test1() {
 			<div className="flex flex-col sm:flex-row gap-3 w-full md:w-10/12 xl:w-8/12">
 				<div className="flex flex-col gap-1">
 					<p className="text-lg font-semibold whitespace-nowrap">
-						Limites et continuité
+						{currentChapter.title}
 					</p>
 					<p className="text-xs text-neutral-600 flex items-center">
-						Chapitre&nbsp;01 <Dot /> Test&nbsp;1
+						Chapitre&nbsp; {currentChapter.id} <Dot /> Test&nbsp;
 					</p>
 				</div>
 				<div className="px-3 flex flex-col gap-1.5 items-center justify-start w-full">
@@ -164,7 +172,7 @@ export default function Test1() {
 							/{Math.max(MAX_QUESTIONS)}
 						</span> */}
 					</div>
-					<div className="grid grid-cols-20 gap-1 w-full">
+					{/* <div className="grid grid-cols-20 gap-1 w-full">
 						{pool.map((_, i) => (
 							<div
 								key={i}
@@ -172,7 +180,7 @@ export default function Test1() {
 									}`}
 							/>
 						))}
-					</div>
+					</div> */}
 				</div>
 			</div>
 
@@ -271,6 +279,11 @@ export default function Test1() {
 
 
 			</div>
+			<PopupModal
+				isOpen={showPopup}
+				theta={theta}
+				onClose={() => setShowPopup(false)}
+			/>
 		</section>
 	);
 }

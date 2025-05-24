@@ -1,3 +1,5 @@
+"use client"
+
 import Header from "@/app/components/client/Header";
 import TestSelector from "@/app/components/client/TestsContainer";
 

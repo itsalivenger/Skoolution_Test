@@ -1,16 +1,27 @@
 "use client";
-
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Breadcrumb from "./BreadCrumb";
-import { getFromStorage, saveInStorage, saveToStorage } from "@/app/utils/storage";
+import { getFromStorage, saveInStorage } from "@/app/utils/storage";
 
 export default function TestSelector() {
   const [selectedTest, setSelectedTest] = useState(null);
-  const [tests] = useState(getFromStorage("tests") || []);
+  const [tests, setTests] = useState(getFromStorage("tests") || []);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    const chapter = getFromStorage('current_chapter');
+    const arr = []
+    chapter.competences.forEach(competence => {
+      competence.sous_chapitres.forEach(sous_chapitre => {
+        arr.push(sous_chapitre);
+      });
+    });
+
+    setTests(arr);
+    console.log(chapter);
+  }, [])
 
   const handleStartTest = () => {
     if (selectedTest) {

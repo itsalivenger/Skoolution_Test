@@ -4,16 +4,25 @@ import clientPromise from "@/app/utils/db_Connection";
 export async function POST(request) {
   try {
     const { name, filiere } = await request.json();
-    if (!name || !filiere) 
+    if (!name || !filiere) {
       return NextResponse.json({ error: 'name & filiere required' }, { status: 400 });
+    }
 
     const client = await clientPromise;
     const db = client.db('Skoolution');
     const matieres = db.collection('Matiere');
+    const users = db.collection('User');
 
+    // Check for existing user
+    const existingUser = await users.findOne({ name });
+    if (existingUser) {
+      return NextResponse.json({ error: 'utilisateur deja existant' }, { status: 400 });
+    }
+
+    // Prepare thetas
     const matiereDoc = await matieres.findOne({});
-
     const thetas = {};
+
     if (matiereDoc?.Mathematiques?.chapitres) {
       matiereDoc.Mathematiques.chapitres.forEach(chapitre => {
         chapitre.competences.forEach(competence => {
@@ -25,7 +34,7 @@ export async function POST(request) {
       });
     }
 
-    const users = db.collection('User');
+    // Insert new user
     const { insertedId } = await users.insertOne({
       name,
       filiere,

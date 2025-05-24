@@ -51,11 +51,11 @@ export default function Lessons() {
 				</div>
 
 				<div className="grid grid-cols-1 min-[840px]:grid-cols-2 xl:grid-cols-3 gap-8">
-					{chapitres.map((chapitre) => (
+					{chapitres.slice(0, 2).map((chapitre) => (
 						<Link
 							key={chapitre.title}
 							href={{
-								pathname: `/subjects/math/lessons/${encodeURIComponent(chapitre.title)}`,
+								pathname: `/subjects/math/lessons/tests`,
 							}}
 							className="flex flex-col min-[465px]:flex-row gap-0 bg-white shadow-[3px_3px_10px_0px_rgba(0,_0,_0,_0.1)] hover:scale-[1.02] transition-transform duration-200"
 							onClick={()=> saveInStorage('current_chapter', chapitre)}

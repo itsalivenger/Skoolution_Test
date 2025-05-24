@@ -4,7 +4,7 @@ function probCorrect(theta, a, b) {
     return 1 / (1 + Math.exp(-a * (theta - b)));
 }
 
-function calculerTau({ t, lambda = .01}){
+function calculerTau({ t, lambda = .01 }) {
     const tau_init = .05;
     return tau_init / (1 + t * lambda)
 }
@@ -69,7 +69,7 @@ export function selectNextItem({ theta, pool, askedSet }) {
     return bestQ || pool.find(q => !askedIds.has(q._id ?? q.id)) || null;
 }
 
-export async function update_b({ currentQuest, theta , r, question_num}) {
+export async function update_b({ currentQuest, theta, r, question_num }) {
     const { param_a, param_b } = currentQuest;
     const p = probCorrect(theta, param_a, param_b);
     const _id = currentQuest._id;
@@ -79,23 +79,28 @@ export async function update_b({ currentQuest, theta , r, question_num}) {
 
     console.log(new_param_b);
     console.log(currentQuest.param_b);
-    const response = await apiRequest({ url: '/api/update_b', method: 'PUT', body: {new_param_b, _id}});
+    const response = await apiRequest({ url: '/api/update_b', method: 'PUT', body: { new_param_b, _id } });
     console.log(response);
     return response;
 }
 
-export async function update_a({ currentQuest, user_id, r, theta }){
-    const body = { question: currentQuest, user_id, response: r, current_theta: theta}
-    const response = await apiRequest({ url: '/api/update_a', method: 'PUT', body});
+export async function update_a({ currentQuest, user_id, r, theta }) {
+    const body = { question: currentQuest, user_id, response: r, current_theta: theta }
+    const response = await apiRequest({ url: '/api/update_a', method: 'PUT', body });
 
     return response;
 }
 
-export async function finalize({ user_id, competence_id, theta }) {
-    const response = await apiRequest({
-        url: `/api/update_theta`,
-        method: 'PUT',
-        body: { user_id, competence_id, theta }
-    })
-    return response
+export async function finalize({ user_id, competence_id, theta, setShowPopup }) {
+    // const response = await apiRequest({
+    //     url: `/api/update_theta`,
+    //     method: 'PUT',
+    //     body: { user_id, competence_id, theta }
+    // })
+
+    alert('done')
+    setShowPopup(true);
+    // if (response?.status === 200) {
+    // }
+    // return response
 }
