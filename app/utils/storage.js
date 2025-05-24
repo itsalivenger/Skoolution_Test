@@ -1,5 +1,6 @@
 // Save any value (object, string, etc.) under a dynamic key in localStorage
 export function saveInStorage(key, value) {
+  if (typeof window === 'undefined') return; // prevent server-side access
   try {
     const data = typeof value === 'string' ? value : JSON.stringify(value);
     localStorage.setItem(key, data);
@@ -10,13 +11,13 @@ export function saveInStorage(key, value) {
 
 // Retrieve and parse JSON data from localStorage by key
 export function getFromStorage(key) {
+  if (typeof window === 'undefined') return null; // prevent server-side access
   try {
     const data = localStorage.getItem(key);
     if (!data) return null;
     try {
       return JSON.parse(data);
     } catch {
-      // If data is not JSON parseable, return raw string
       return data;
     }
   } catch (error) {
@@ -26,8 +27,10 @@ export function getFromStorage(key) {
 }
 
 export function removeFromStorage(key) {
-  if (typeof window !== 'undefined' && localStorage.getItem(key)) {
+  if (typeof window === 'undefined') return; // prevent server-side access
+  try {
     localStorage.removeItem(key);
+  } catch (error) {
+    console.error(`Error removing from localStorage with key "${key}":`, error);
   }
 }
-

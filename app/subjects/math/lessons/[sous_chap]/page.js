@@ -1,7 +1,7 @@
 'use client';
-import Breadcrumb from "@/app/components/client/BreadCrumb";
-import Header from "@/app/components/client/Header";
-import Sous_Chap from "@/app/components/client/Sous_Chap";
+// import Breadcrumb from "@/app/components/client/BreadCrumb";
+// import Header from "@/app/components/client/Header";
+// import Sous_Chap from "@/app/components/client/Sous_Chap";
 
 function Sous_Chap_Page() {
   return (

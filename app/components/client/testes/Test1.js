@@ -1,5 +1,5 @@
 "use client";
-import { Dot, Router, X } from "lucide-react";
+import { Dot, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";

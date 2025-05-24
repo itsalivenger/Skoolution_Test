@@ -27,7 +27,7 @@ export default function TestSelector() {
     if (selectedTest) {
       console.log(selectedTest);
       saveInStorage("currentTest", selectedTest);
-      router.push(`${pathname}/test1`); // Navigate to /test1
+      router.push(`${pathname}/test1`);
     }
   };
 
