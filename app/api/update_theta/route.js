@@ -29,7 +29,7 @@ export async function PUT(req) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, updatedTheta: theta });
+    return NextResponse.json({ success: true, updatedTheta: theta }, { status: 200 });
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: 'Server error', message: err.message }, { status: 500 });
