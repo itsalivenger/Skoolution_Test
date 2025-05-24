@@ -92,15 +92,14 @@ export async function update_a({ currentQuest, user_id, r, theta }) {
 }
 
 export async function finalize({ user_id, competence_id, theta, setShowPopup }) {
-    // const response = await apiRequest({
-    //     url: `/api/update_theta`,
-    //     method: 'PUT',
-    //     body: { user_id, competence_id, theta }
-    // })
+    const response = await apiRequest({
+        url: `/api/update_theta`,
+        method: 'PUT',
+        body: { user_id, competence_id, theta }
+    })
 
-    alert('done')
-    setShowPopup(true);
-    // if (response?.status === 200) {
-    // }
-    // return response
+    if (response?.status === 200) {
+        setShowPopup(true);
+    }
+    return response
 }

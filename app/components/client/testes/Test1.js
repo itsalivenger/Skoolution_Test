@@ -97,8 +97,6 @@ export default function Test1() {
 			const user_id = getFromStorage('user_id')
 			const competence_id = getFromStorage('current_competence_id')
 			finalize({ user_id, competence_id, theta, setShowPopup })
-
-			// router.push('/subjects/math/lessons/');
 			return;
 		}
 
@@ -125,6 +123,11 @@ export default function Test1() {
 		// update_params();
 		setValidated(true);
 	};
+
+	const handle_close_popup = () => {
+		setShowPopup(false);
+		router.push('/subjects/math/lessons/');
+	}
 
 	if (loading) {
 		return (
@@ -282,7 +285,7 @@ export default function Test1() {
 			<PopupModal
 				isOpen={showPopup}
 				theta={theta}
-				onClose={() => setShowPopup(false)}
+				onClose={handle_close_popup}
 			/>
 		</section>
 	);
