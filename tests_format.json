@@ -1,0 +1,168 @@
+{
+    "tests": [
+        {
+            "id": 1,
+            "question": "some kind of question",
+            "param_b": 2,
+            "param_a": 3,
+            "choices": [
+                "choix1",
+                "choix2",
+                "choix3",
+                "choix4"
+            ],
+            "correct_choice": 2,
+            "sous_chap": "Suites numeriques"
+        },
+        {},
+        {}
+    ],
+    "competences": [
+        "competence 1",
+        "competence 2",
+        "competence 3",
+        "competence 4",
+        "competence 5"
+    ],
+    "_id": {
+        "$oid": "68273e007a0c18eca5e143d6"
+    },
+    "Mathematiques": {
+        "chapitres": [
+            {
+                "id": 1,
+                "title": "Suites numériques",
+                "subtitle": "Test 1",
+                "degree": 16,
+                "competences": [
+                    {
+                        "id": 1,
+                        "title": "Manipuler des suites usuelles",
+                        "sous_chapitres": [
+                            {
+                                "id": 1,
+                                "title": "Suites arithmétiques et suites géométriques"
+                            },
+                            {
+                                "id": 2,
+                                "title": "Suite majorée, suite minorée et suite constante"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 2,
+                        "title": "Analyser le comportement des suites",
+                        "sous_chapitres": [
+                            {
+                                "id": 3,
+                                "title": "Monotonie d'une suite numérique"
+                            },
+                            {
+                                "id": 4,
+                                "title": "Calcul de la limite d'une suite numérique"
+                            },
+                            {
+                                "id": 5,
+                                "title": "Critères de convergence d'une suite numérique"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 3,
+                        "title": "Étudier des suites définies par récurrence ou relation fonctionnelle",
+                        "sous_chapitres": [
+                            {
+                                "id": 6,
+                                "title": "Limite d'une suite de la forme Vn = f(Un)"
+                            },
+                            {
+                                "id": 7,
+                                "title": "Limite d'une suite de la forme Un+1 = f(Un)"
+                            }
+                        ]
+                    },
+                    {
+                        "id": 4,
+                        "title": "Résoudre des problèmes avec les suites",
+                        "sous_chapitres": [
+                            {
+                                "id": 8,
+                                "title": "Utiliser les suites pour résoudre des problèmes variés issus de domaines différents"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "title": "Les nombres complexes",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            },
+            {
+                "id": 3,
+                "title": "Probabilités",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            },
+            {
+                "id": 4,
+                "title": "Continuité d'une fonction numériques",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            },
+            {
+                "id": 5,
+                "title": "Dérivabilité",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            },
+            {
+                "id": 6,
+                "title": "Fonction logarithme",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            },
+            {
+                "id": 7,
+                "title": "Fonction exponentielle",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            },
+            {
+                "id": 8,
+                "title": "Produit vectoriel",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            },
+            {
+                "id": 9,
+                "title": "Intégrales",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            },
+            {
+                "id": 10,
+                "title": "Équations différentielles",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            },
+            {
+                "id": 11,
+                "title": "Produit scalaire",
+                "subtitle": "Test 1",
+                "degree": 0,
+                "competences": []
+            }
+        ]
+    }
+}
