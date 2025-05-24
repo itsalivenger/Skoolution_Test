@@ -6,7 +6,7 @@ import { getFromStorage, saveInStorage } from "@/app/utils/storage";
 
 export default function TestSelector() {
   const [selectedTest, setSelectedTest] = useState(null);
-  const [tests, setTests] = useState(getFromStorage("tests") || []);
+  const [tests, setTests] = useState([]);
   const pathname = usePathname();
   const router = useRouter();
 
