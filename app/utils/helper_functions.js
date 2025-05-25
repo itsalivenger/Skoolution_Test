@@ -97,9 +97,8 @@ export async function finalize({ user_id, competence_id, theta, setShowPopup }) 
         method: 'PUT',
         body: { user_id, competence_id, theta }
     })
+    console.log(response);
+    setShowPopup(true);
 
-    if (response?.status === 200) {
-        setShowPopup(true);
-    }
     return response
 }
