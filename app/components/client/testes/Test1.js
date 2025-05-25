@@ -126,7 +126,7 @@ export default function Test1() {
 
 	const handle_close_popup = () => {
 		setShowPopup(false);
-		router.push('/subjects/math/lessons/');
+		router.push('/subjects/math/lessons');
 	}
 
 	if (loading) {
