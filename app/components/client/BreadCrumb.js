@@ -34,12 +34,12 @@ export default function Breadcrumb() {
     <nav className="px-6 py-4 rounded-xl mt-10 mb-4" aria-label="Breadcrumb">
       <ol className="flex flex-wrap gap-4 text-lg text-gray-600">
         <li>
-          <Link
-            href="/"
+          <div
+            // href="/"
             className="text-blue-600 hover:text-blue-800 font-medium"
           >
             Home
-          </Link>
+          </div>
         </li>
 
         {crumbs.map(({ href, label }, idx) => (
