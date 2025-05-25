@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import clientPromise from "@/lib/mongodb"; // adjust if needed
+import clientPromise from "@/app/utils/db_Connection"; // adjust if needed
 
 export async function GET() {
   const client = await clientPromise;
@@ -12,29 +12,29 @@ export async function GET() {
 
     let updated = false;
 
-    const chapitres = doc.Mathematiques.chapitres.map(chapitre => {
-      chapitre.competences = chapitre.competences.map(comp => {
-        comp.sous_chapitres = comp.sous_chapitres.map(sous => {
-          sous.questions = sous.questions.map(q => {
-            const cleaned = q.question.replace(/ *\\+ */g, ""); // remove \ with surrounding spaces
-            if (q.question !== cleaned) {
-              q.question = cleaned;
-              updated = true;
-            }
-            return q;
-          });
-          return sous;
-        });
-        return comp;
-      });
-      return chapitre;
-    });
+    // const chapitres = doc.Mathematiques.chapitres.map(chapitre => {
+    //   chapitre.competences = chapitre.competences.map(comp => {
+    //     comp.sous_chapitres = comp.sous_chapitres.map(sous => {
+    //       sous.questions = sous.questions.map(q => {
+    //         const cleaned = q.question.replace(/ *\\+ */g, ""); // remove \ with surrounding spaces
+    //         if (q.question !== cleaned) {
+    //           q.question = cleaned;
+    //           updated = true;
+    //         }
+    //         return q;
+    //       });
+    //       return sous;
+    //     });
+    //     return comp;
+    //   });
+    //   return chapitre;
+    // });
 
     if (updated) {
-      await collection.updateOne(
-        { _id: doc._id },
-        { $set: { "Mathematiques.chapitres": chapitres } }
-      );
+      // await collection.updateOne(
+      //   { _id: doc._id },
+      //   { $set: { "Mathematiques.chapitres": chapitres } }
+      // );
       return NextResponse.json({ message: "Backslashes with spaces cleaned." });
     } else {
       return NextResponse.json({ message: "No changes needed." });
