@@ -31,7 +31,7 @@ export default function Test1() {
 
 	const router = useRouter();
 
-	const MAX_QUESTIONS = 1;
+	const MAX_QUESTIONS = 10;
 
 	useEffect(() => {
 		try {
