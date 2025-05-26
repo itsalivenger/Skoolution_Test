@@ -160,7 +160,7 @@ export default function AddQuestionForm() {
 
 
 
-
+// console.log(selectedCompetence.sous_chapitres);
   return (
     <div className="p-6 space-y-4">
       <h1 className="text-xl font-bold">Ajouter une question</h1>
@@ -200,7 +200,8 @@ export default function AddQuestionForm() {
         <select
           className="w-full p-2 border rounded"
           onChange={(e) => {
-            const ss = selectedCompetence.sous_chapitres.find((s) => s.id === parseInt(e.target.value));
+            const ss = selectedCompetence.sous_chapitres.find((s) => s.id == e.target.value);
+            console.log(ss);
             setSelectedSousChapitre(ss);
           }}
         >

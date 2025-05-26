@@ -1,5 +1,4 @@
 import clientPromise from "@/app/utils/db_Connection";
-import { ObjectId } from "mongodb";
 
 export async function GET() {
   try {

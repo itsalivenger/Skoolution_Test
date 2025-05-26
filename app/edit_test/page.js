@@ -77,6 +77,7 @@ export default function QuestionsManager() {
                 </option>
                 {questions.map(({ questionId, question, chapitreTitle, competenceTitle, sousChapitreTitle }) => (
                     <option key={questionId} value={questionId}>
+                        
                         {`${chapitreTitle} > ${competenceTitle} > ${sousChapitreTitle} : ${question.slice(0, 40)}...`}
                     </option>
                 ))}
