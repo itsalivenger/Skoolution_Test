@@ -4,6 +4,7 @@ import clientPromise from "@/app/utils/db_Connection";
 export async function POST(request) {
   try {
     const { name, filiere } = await request.json();
+
     if (!name || !filiere) {
       return NextResponse.json({ error: 'name & filiere required' }, { status: 400 });
     }
@@ -13,11 +14,15 @@ export async function POST(request) {
     const matieres = db.collection('Matiere');
     const users = db.collection('User');
 
-    // Check for existing user
-    const existingUser = await users.findOne({ name });
-    if (existingUser) {
-      return NextResponse.json({ error: 'utilisateur deja existant' }, { status: 400 });
+    // Check if user already exists
+    let user = await users.findOne({ name });
+
+    if (user) {
+      // User exists → login: return user data
+      return NextResponse.json({ user, message: 'Logged in' }, { status: 200 });
     }
+
+    // User doesn't exist → create
 
     // Prepare thetas
     const matiereDoc = await matieres.findOne({});
@@ -28,20 +33,23 @@ export async function POST(request) {
         chapitre.competences.forEach(competence => {
           thetas[competence.id.toString()] = {
             id: competence.id,
-            theta: 0
+            theta: 0,
           };
         });
       });
     }
 
     // Insert new user
-    const { insertedId } = await users.insertOne({
+    const insertResult = await users.insertOne({
       name,
       filiere,
       thetas,
     });
 
-    return NextResponse.json({ _id: insertedId }, { status: 201 });
+    // Fetch inserted user data
+    user = await users.findOne({ _id: insertResult.insertedId });
+
+    return NextResponse.json({ user, message: 'Account created' }, { status: 201 });
 
   } catch (err) {
     console.error(err);

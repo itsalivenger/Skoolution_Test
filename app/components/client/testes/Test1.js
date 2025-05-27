@@ -115,6 +115,7 @@ export default function Test1() {
 
 		setCurrentQ(nextQ);
 		setAsked((a) => [...a, nextQ]);
+		console.log(currentQ, selectedOption, 'dedrnoo');
 	};
 
 

@@ -1,22 +1,10 @@
+import { ObjectId } from "mongodb";
 import clientPromise from "@/app/utils/db_Connection";
 
-/**
- * Body expected:
- * {
- *   chapitre_id: 1,
- *   competence_id: 2,
- *   sous_chapitre_id: 5,
- *   question: "…",
- *   choices: ["…","…","…","…"],
- *   correct_choice: 1,
- *   param_a: 1.2,
- *   param_b: -0.4
- * }
- */
 export async function POST(request) {
   try {
     const payload = await request.json();
-    // --- minimal validation ---------------------------------------
+
     const required = [
       "chapitre_id",
       "competence_id",
@@ -32,20 +20,17 @@ export async function POST(request) {
       );
     }
 
-    // --- connect DB ----------------------------------------------
     const client = await clientPromise;
     const db = client.db("Skoolution");
     const col = db.collection("Matiere");
 
-    // --- build MongoDB update path --------------------------------
-    // We find the unique doc, then use array filters to push deep
     const res = await col.updateOne(
       {},
       {
         $push: {
           "Mathematiques.chapitres.$[chap].competences.$[comp].sous_chapitres.$[sc].questions":
             {
-              id: Date.now(), // or new ObjectId()
+              _id: new ObjectId(), // use MongoDB ObjectId
               question: payload.question,
               choices: payload.choices,
               correct_choice: payload.correct_choice,

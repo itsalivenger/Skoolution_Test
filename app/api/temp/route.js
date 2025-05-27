@@ -1,36 +1,51 @@
-import { ObjectId } from "mongodb";
-import clientPromise from "@/app/utils/db_Connection"; // adjust if needed
+import { ObjectId } from 'mongodb';
+import clientPromise from '@/app/utils/db_Connection';
 
-export async function GET() {
+async function fixCorrectChoice() {
   const client = await clientPromise;
-  const db = client.db("Skoolution");
+  const db = client.db('Skoolution');
+  const matiereCol = db.collection('Matiere');
 
-  const doc = await db.collection("Matiere").findOne();
-  const matiere = doc.Mathematiques;
-  const chapitres = matiere.chapitres;
+  // Get the whole document (assuming just one)
+  const doc = await matiereCol.findOne({});
 
-  if (!chapitres[1]) {
-    return Response.json({ error: "Second chapter not found" }, { status: 404 });
+  if (!doc || !doc.Mathematiques?.chapitres) {
+    console.log('No Mathematiques or chapitres found');
+    return;
   }
 
-  // Replace question id with _id
-  chapitres[1].competences = chapitres[1].competences.map((competence) => ({
-    ...competence,
-    sous_chapitres: competence.sous_chapitres.map((sousChapitre) => ({
-      ...sousChapitre,
-      questions: sousChapitre.questions.map((q) => ({
-        ...q,
-        _id: new ObjectId(),
-        id: undefined, // optionally remove the old `id` if present
-      })),
-    })),
-  }));
+  let modifiedCount = 0;
 
-  // Update the document
-  await db.collection("Matiere").updateOne(
-    { _id: doc._id },
-    { $set: { "Mathematiques.chapitres": chapitres } }
-  );
+  // Traverse all questions and fix if needed
+  for (const chapitre of doc.Mathematiques.chapitres) {
+    for (const competence of chapitre.competences) {
+      for (const sous_chapitre of competence.sous_chapitres) {
+        for (const question of sous_chapitre.questions) {
+          if (typeof question.correct_choice !== 'number') {
+            // Update this question's correct_choice to 0
+            const res = await matiereCol.updateOne(
+              {
+                "Mathematiques.chapitres.competences.sous_chapitres.questions._id": question._id
+              },
+              {
+                $set: {
+                  "Mathematiques.chapitres.$[].competences.$[].sous_chapitres.$[].questions.$[q].correct_choice": 0
+                }
+              },
+              {
+                arrayFilters: [{ "q._id": question._id }]
+              }
+            );
+            modifiedCount += res.modifiedCount;
+          }
+        }
+      }
+    }
+  }
 
-  return Response.json({ success: true });
+  console.log(`Fixed correct_choice in ${modifiedCount} questions`);
 }
+
+fixCorrectChoice()
+  .then(() => console.log('Done'))
+  .catch(console.error);

@@ -64,7 +64,7 @@ export default function TestSelector() {
             <p className="mb-4">{selectedTest.description}</p>
             <p className="mb-4 text-sm text-gray-600">
               Nombre de questions : {selectedTest.numQuestions || 10} <br />
-              Durée estimée : {selectedTest.duration || "15 minutes"}
+              {/* Durée estimée : {selectedTest.duration || "15 minutes"} */}
             </p>
             <button
               onClick={handleStartTest}

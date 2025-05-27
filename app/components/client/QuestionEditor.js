@@ -6,7 +6,7 @@ import "katex/dist/katex.min.css";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 
-export default function QuestionEditor({ questionData, onSave }) {
+export default function QuestionEditor({ questionData, onSave, handleDelete }) {
     const [question, setQuestion] = useState(questionData?.question || "");
     const [choices, setChoices] = useState(questionData?.choices || ["", "", "", ""]);
     const [correctChoice, setCorrectChoice] = useState(questionData?.correct_choice || "");
@@ -75,6 +75,13 @@ export default function QuestionEditor({ questionData, onSave }) {
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             >
                 Save Question
+            </button>
+
+            <button
+                onClick={handleDelete}
+                className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            >
+                Supprimer Question
             </button>
         </div>
     );

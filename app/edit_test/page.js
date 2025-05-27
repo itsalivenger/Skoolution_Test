@@ -63,6 +63,32 @@ export default function QuestionsManager() {
         }
     };
 
+    const handleDelete = async () => {
+        if (!selectedQuestionId) return;
+
+        if (!confirm("Êtes-vous sûr de vouloir supprimer cette question ?")) return;
+
+        try {
+            const res = await apiRequest({
+                url: "/api/questions/delete",
+                method: "POST",
+                body: { questionId: selectedQuestionId },
+            });
+
+            if (res.success) {
+                alert("Question supprimée avec succès");
+                setQuestions(prev => prev.filter(q => q.questionId !== selectedQuestionId));
+                setSelectedQuestionId(null);
+                setSelectedQuestion(null);
+            } else {
+                alert("Erreur lors de la suppression : " + res.error);
+            }
+        } catch (error) {
+            alert("Échec de la suppression : " + error.message);
+        }
+    };
+
+
     return (
         <div className="p-6 max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-4">Select a Question to Edit</h2>
@@ -77,7 +103,7 @@ export default function QuestionsManager() {
                 </option>
                 {questions.map(({ questionId, question, chapitreTitle, competenceTitle, sousChapitreTitle }) => (
                     <option key={questionId} value={questionId}>
-                        
+
                         {`${chapitreTitle} > ${competenceTitle} > ${sousChapitreTitle} : ${question.slice(0, 40)}...`}
                     </option>
                 ))}
@@ -88,6 +114,7 @@ export default function QuestionsManager() {
                     key={selectedQuestion.questionId}
                     questionData={selectedQuestion}
                     onSave={handleSave}
+                    handleDelete={handleDelete}
                 />
             )}
         </div>
