@@ -91,11 +91,18 @@ export async function update_a({ currentQuest, user_id, r, theta }) {
     return response;
 }
 
-export async function finalize({ user_id, competence_id, theta, setShowPopup }) {
+export async function finalize({ user_id, competence_id, theta, setShowPopup, sous_chapitre }) {
     const response = await apiRequest({
         url: `/api/update_theta`,
         method: 'PUT',
         body: { user_id, competence_id, theta }
+    })
+
+    // hna kansift request l route ta3 tetha d'un exercice
+    const res = await apiRequest({
+        url: `/api/tetha_test`,
+        method: 'PUT',
+        body: { user_id, sous_chapitre, theta }
     })
     console.log(response);
     setShowPopup(true);

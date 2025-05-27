@@ -14,11 +14,11 @@ export default function TestSelector() {
   const THETA_THRESHOLD = 0.7;
 
   useEffect(() => {
-    const chapter = getFromStorage('current_chapter');
-    const current_user = getFromStorage('user');
+    const chapter = getFromStorage("current_chapter");
+    const current_user = getFromStorage("user");
     const arr = [];
-    chapter.competences.forEach(competence => {
-      competence.sous_chapitres.forEach(sous_chapitre => {
+    chapter.competences.forEach((competence) => {
+      competence.sous_chapitres.forEach((sous_chapitre) => {
         arr.push({ sous_chapitre, current_compentence: competence });
       });
     });
@@ -30,7 +30,7 @@ export default function TestSelector() {
   const handleStartTest = () => {
     if (selectedTest) {
       saveInStorage("currentTest", selectedTest.sous_chapitre);
-      saveInStorage('current_competence_id', current_compentence.id);
+      saveInStorage("current_competence_id", current_compentence.id);
       router.push(`${pathname}/test1`);
     }
   };
@@ -47,8 +47,8 @@ export default function TestSelector() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {tests.map((test, idx) => {
-          const compId = test.current_compentence?.id;
-          const theta = user?.thetas?.[compId]?.theta ?? -3;
+          const scId = test.sous_chapitre.id;
+          const theta = user?.sous_chapitre_thetas?.[scId]?.theta ?? -3;
           const progress = Math.min(Math.max((theta + 3) / (THETA_THRESHOLD + 3), 0), 1) * 100;
 
           return (
@@ -62,17 +62,16 @@ export default function TestSelector() {
             >
               <h2 className="text-xl font-bold text-blue-600">{test.sous_chapitre.title}</h2>
               <p className="text-sm text-gray-500 mb-2">{test.sous_chapitre.description}</p>
-              
+
               <div className="h-3 w-full bg-gray-200 rounded-full mb-1">
-                <div
-                  className={`h-3 rounded-full ${getColor(theta)}`}
-                  style={{ width: `${progress}%` }}
-                ></div>
+                <div className={`h-3 rounded-full ${getColor(theta)}`} style={{ width: `${progress}%` }}></div>
               </div>
 
               <p className="text-xs">
                 Compétence: {test.current_compentence.title} – θ = {theta.toFixed(2)}{" "}
-                {theta >= THETA_THRESHOLD && <span className="text-green-600 font-semibold ml-2">Fait</span>}
+                {theta >= THETA_THRESHOLD && (
+                  <span className="text-green-600 font-semibold ml-2">Fait</span>
+                )}
               </p>
             </div>
           );
@@ -89,9 +88,7 @@ export default function TestSelector() {
             >
               &times;
             </button>
-            <h2 className="text-2xl font-bold mb-2 text-blue-700">
-              {selectedTest.sous_chapitre.title}
-            </h2>
+            <h2 className="text-2xl font-bold mb-2 text-blue-700">{selectedTest.sous_chapitre.title}</h2>
             <p className="mb-4">{selectedTest.sous_chapitre.description}</p>
             <p className="mb-4 text-sm text-gray-600">
               Nombre de questions : {selectedTest.sous_chapitre.numQuestions || 10}

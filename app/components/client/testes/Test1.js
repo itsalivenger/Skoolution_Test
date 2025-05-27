@@ -31,7 +31,7 @@ export default function Test1() {
 
 	const router = useRouter();
 
-	const MAX_QUESTIONS = .7;
+	const MAX_QUESTIONS = 20;
 
 	useEffect(() => {
 		try {
@@ -96,17 +96,24 @@ export default function Test1() {
 			console.log("Finished – θ final:", newTheta);
 			const user_id = getFromStorage('user_id');
 			const competence_id = getFromStorage('current_competence_id');
-			console.log(competence_id);
+			const sous_chapitre = getFromStorage('currentTest');
+			console.log(sous_chapitre);
 
-			finalize({ user_id, competence_id, theta: newTheta, setShowPopup }).then(() => {
-				// Update local user object
-				const user = getFromStorage('user');
-				if (!user.thetas) user.thetas = {};
-				user.thetas[competence_id] = {
-					id: competence_id,
-					theta: newTheta,
-				};
-				saveInStorage('user', user);
+			finalize({ user_id, competence_id, theta: newTheta, setShowPopup, sous_chapitre }).then(() => {
+				const user = getFromStorage('user') || {};
+
+				if (!user.sous_chapitre_thetas) user.sous_chapitre_thetas = {};
+
+				const scId = sous_chapitre.id;
+				const existingTheta = user.sous_chapitre_thetas[scId]?.theta;
+
+				if (existingTheta === undefined || newTheta > existingTheta) {
+					user.sous_chapitre_thetas[scId] = {
+						id: scId,
+						theta: newTheta,
+					};
+					saveInStorage('user', user);
+				}
 			});
 
 			return;
