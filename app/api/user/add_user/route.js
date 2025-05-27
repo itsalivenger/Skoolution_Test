@@ -14,17 +14,18 @@ export async function POST(request) {
     const matieres = db.collection('Matiere');
     const users = db.collection('User');
 
-    // Check if user already exists
-    let user = await users.findOne({ name });
+    // Check if user already exists with same name AND filiere
+    let user = await users.findOne({ name, filiere });
+    console.log(user);
 
     if (user) {
       // User exists → login: return user data
       return NextResponse.json({ user, message: 'Logged in' }, { status: 200 });
     }
 
-    // User doesn't exist → create
+    // User doesn't exist → create new
 
-    // Prepare thetas
+    // Prepare thetas object
     const matiereDoc = await matieres.findOne({});
     const thetas = {};
 

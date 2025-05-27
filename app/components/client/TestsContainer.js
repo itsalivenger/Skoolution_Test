@@ -7,6 +7,7 @@ import { getFromStorage, saveInStorage } from "@/app/utils/storage";
 export default function TestSelector() {
   const [selectedTest, setSelectedTest] = useState(null);
   const [tests, setTests] = useState([]);
+  const [current_compentence, setCurrentCompetence] = useState(null);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -15,7 +16,7 @@ export default function TestSelector() {
     const arr = []
     chapter.competences.forEach(competence => {
       competence.sous_chapitres.forEach(sous_chapitre => {
-        arr.push(sous_chapitre);
+        arr.push({sous_chapitre, current_compentence: competence});
       });
     });
 
@@ -26,7 +27,8 @@ export default function TestSelector() {
   const handleStartTest = () => {
     if (selectedTest) {
       console.log(selectedTest);
-      saveInStorage("currentTest", selectedTest);
+      saveInStorage("currentTest", selectedTest.sous_chapitre);
+      saveInStorage('current_competence_id', current_compentence.id)
       router.push(`${pathname}/test1`);
     }
   };
@@ -40,10 +42,12 @@ export default function TestSelector() {
             <div
               key={idx}
               className="p-6 bg-white rounded-xl shadow hover:shadow-lg cursor-pointer"
-              onClick={() => setSelectedTest(test)}
+              onClick={() => {setSelectedTest(test)
+                setCurrentCompetence(test.current_compentence);
+              }}
             >
-              <h2 className="text-xl font-bold text-blue-600">{test.title}</h2>
-              <p className="text-sm text-gray-500">{test.description}</p>
+              <h2 className="text-xl font-bold text-blue-600">{test.sous_chapitre.title}</h2>
+              <p className="text-sm text-gray-500">{test.sous_chapitre.description}</p>
             </div>
           ))}
       </div>
@@ -59,11 +63,11 @@ export default function TestSelector() {
               &times;
             </button>
             <h2 className="text-2xl font-bold mb-2 text-blue-700">
-              {selectedTest.title}
+              {selectedTest.sous_chapitre.title}
             </h2>
-            <p className="mb-4">{selectedTest.description}</p>
+            <p className="mb-4">{selectedTest.sous_chapitre.description}</p>
             <p className="mb-4 text-sm text-gray-600">
-              Nombre de questions : {selectedTest.numQuestions || 10} <br />
+              Nombre de questions : {selectedTest.sous_chapitre.numQuestions || 10} <br />
               {/* Durée estimée : {selectedTest.duration || "15 minutes"} */}
             </p>
             <button

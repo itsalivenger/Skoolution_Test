@@ -1,51 +1,49 @@
-import { ObjectId } from 'mongodb';
+import { NextResponse } from 'next/server';
 import clientPromise from '@/app/utils/db_Connection';
 
-async function fixCorrectChoice() {
-  const client = await clientPromise;
-  const db = client.db('Skoolution');
-  const matiereCol = db.collection('Matiere');
+export async function GET() {
+  try {
+    const client = await clientPromise;
+    const db = client.db('Skoolution');
+    const matieres = db.collection('Matiere');
 
-  // Get the whole document (assuming just one)
-  const doc = await matiereCol.findOne({});
+    const matiereDoc = await matieres.findOne({});
 
-  if (!doc || !doc.Mathematiques?.chapitres) {
-    console.log('No Mathematiques or chapitres found');
-    return;
-  }
-
-  let modifiedCount = 0;
-
-  // Traverse all questions and fix if needed
-  for (const chapitre of doc.Mathematiques.chapitres) {
-    for (const competence of chapitre.competences) {
-      for (const sous_chapitre of competence.sous_chapitres) {
-        for (const question of sous_chapitre.questions) {
-          if (typeof question.correct_choice !== 'number') {
-            // Update this question's correct_choice to 0
-            const res = await matiereCol.updateOne(
-              {
-                "Mathematiques.chapitres.competences.sous_chapitres.questions._id": question._id
-              },
-              {
-                $set: {
-                  "Mathematiques.chapitres.$[].competences.$[].sous_chapitres.$[].questions.$[q].correct_choice": 0
-                }
-              },
-              {
-                arrayFilters: [{ "q._id": question._id }]
-              }
-            );
-            modifiedCount += res.modifiedCount;
-          }
-        }
-      }
+    if (!matiereDoc?.Mathematiques?.chapitres) {
+      return NextResponse.json({ message: 'No chapters found.' }, { status: 404 });
     }
+
+    const changes = [];
+
+    matiereDoc.Mathematiques.chapitres.forEach(chapitre => {
+      chapitre.competences.forEach(competence => {
+        competence.sous_chapitres.forEach(sousChap => {
+          sousChap.questions.forEach(question => {
+            if (typeof question.correct_choice === 'string') {
+              changes.push({
+                questionId: question._id,
+                before: question.correct_choice,
+                after: 0,
+              });
+              question.correct_choice = 0;
+            }
+          });
+        });
+      });
+    });
+
+    if (changes.length > 0) {
+      await matieres.replaceOne({ _id: matiereDoc._id }, matiereDoc);
+      return NextResponse.json({
+        message: `Updated ${changes.length} questions with string correct_choice`,
+        changes,
+      });
+    }
+
+    return NextResponse.json({ message: 'No string correct_choice found.' });
+
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json({ error: 'Server error', message: error.message }, { status: 500 });
   }
-
-  console.log(`Fixed correct_choice in ${modifiedCount} questions`);
 }
-
-fixCorrectChoice()
-  .then(() => console.log('Done'))
-  .catch(console.error);

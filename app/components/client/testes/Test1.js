@@ -31,7 +31,7 @@ export default function Test1() {
 
 	const router = useRouter();
 
-	const MAX_QUESTIONS = 10;
+	const MAX_QUESTIONS = 3;
 
 	useEffect(() => {
 		try {
@@ -96,6 +96,7 @@ export default function Test1() {
 			console.log("Finished – θ final:", newTheta);
 			const user_id = getFromStorage('user_id')
 			const competence_id = getFromStorage('current_competence_id')
+			console.log(competence_id);
 			finalize({ user_id, competence_id, theta, setShowPopup })
 			return;
 		}
