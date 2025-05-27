@@ -103,7 +103,7 @@ export default function TestSelector() {
             <h2 className="text-2xl font-bold mb-2 text-blue-700">{selectedTest.sous_chapitre.title}</h2>
             <p className="mb-4">{selectedTest.sous_chapitre.description}</p>
             <p className="mb-4 text-sm text-gray-600">
-              Nombre de questions : {selectedTest.sous_chapitre.numQuestions || 10}
+              Nombre de questions : {selectedTest.sous_chapitre.length || 20}
             </p>
             <button
               onClick={handleStartTest}
