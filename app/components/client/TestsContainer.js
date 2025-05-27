@@ -8,48 +8,75 @@ export default function TestSelector() {
   const [selectedTest, setSelectedTest] = useState(null);
   const [tests, setTests] = useState([]);
   const [current_compentence, setCurrentCompetence] = useState(null);
+  const [user, setUser] = useState();
   const pathname = usePathname();
   const router = useRouter();
+  const THETA_THRESHOLD = 0.7;
 
   useEffect(() => {
     const chapter = getFromStorage('current_chapter');
-    const arr = []
+    const current_user = getFromStorage('user');
+    const arr = [];
     chapter.competences.forEach(competence => {
       competence.sous_chapitres.forEach(sous_chapitre => {
-        arr.push({sous_chapitre, current_compentence: competence});
+        arr.push({ sous_chapitre, current_compentence: competence });
       });
     });
 
     setTests(arr);
-    console.log(chapter);
-  }, [])
+    setUser(current_user);
+  }, []);
 
   const handleStartTest = () => {
     if (selectedTest) {
-      console.log(selectedTest);
       saveInStorage("currentTest", selectedTest.sous_chapitre);
-      saveInStorage('current_competence_id', current_compentence.id)
+      saveInStorage('current_competence_id', current_compentence.id);
       router.push(`${pathname}/test1`);
     }
+  };
+
+  const getColor = (theta) => {
+    if (theta >= THETA_THRESHOLD) return "bg-green-500";
+    if (theta >= 0) return "bg-orange-400";
+    return "bg-red-500";
   };
 
   return (
     <div className="relative">
       <Breadcrumb />
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {tests.length > 0 &&
-          tests.map((test, idx) => (
+        {tests.map((test, idx) => {
+          const compId = test.current_compentence?.id;
+          const theta = user?.thetas?.[compId]?.theta ?? -3;
+          const progress = Math.min(Math.max((theta + 3) / (THETA_THRESHOLD + 3), 0), 1) * 100;
+
+          return (
             <div
               key={idx}
               className="p-6 bg-white rounded-xl shadow hover:shadow-lg cursor-pointer"
-              onClick={() => {setSelectedTest(test)
+              onClick={() => {
+                setSelectedTest(test);
                 setCurrentCompetence(test.current_compentence);
               }}
             >
               <h2 className="text-xl font-bold text-blue-600">{test.sous_chapitre.title}</h2>
-              <p className="text-sm text-gray-500">{test.sous_chapitre.description}</p>
+              <p className="text-sm text-gray-500 mb-2">{test.sous_chapitre.description}</p>
+              
+              <div className="h-3 w-full bg-gray-200 rounded-full mb-1">
+                <div
+                  className={`h-3 rounded-full ${getColor(theta)}`}
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+
+              <p className="text-xs">
+                Compétence: {test.current_compentence.title} – θ = {theta.toFixed(2)}{" "}
+                {theta >= THETA_THRESHOLD && <span className="text-green-600 font-semibold ml-2">Fait</span>}
+              </p>
             </div>
-          ))}
+          );
+        })}
       </div>
 
       {selectedTest && (
@@ -67,8 +94,7 @@ export default function TestSelector() {
             </h2>
             <p className="mb-4">{selectedTest.sous_chapitre.description}</p>
             <p className="mb-4 text-sm text-gray-600">
-              Nombre de questions : {selectedTest.sous_chapitre.numQuestions || 10} <br />
-              {/* Durée estimée : {selectedTest.duration || "15 minutes"} */}
+              Nombre de questions : {selectedTest.sous_chapitre.numQuestions || 10}
             </p>
             <button
               onClick={handleStartTest}

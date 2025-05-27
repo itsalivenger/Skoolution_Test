@@ -36,7 +36,9 @@ export default function Math() {
       // Save user ID from response whether new or existing
       if (response?.data?.user?._id) {
         console.log('honaaaa');
+        console.log(response.data.user);
         saveInStorage('user_id', response.data.user._id);
+        saveInStorage('user', response.data.user)
       } else if (response?.data?._id) {
         saveInStorage('user_id', response.data._id);
       }

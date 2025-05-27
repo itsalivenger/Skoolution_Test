@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import "katex/dist/katex.min.css";
-import { getFromStorage } from "@/app/utils/storage";
+import { getFromStorage, saveInStorage } from "@/app/utils/storage";
 import { selectNextItem, updateTheta, finalize, update_b, update_a } from "@/app/utils/helper_functions";
 import { useRouter } from "next/navigation";
 import PopupModal from "../modal_box";
@@ -31,7 +31,7 @@ export default function Test1() {
 
 	const router = useRouter();
 
-	const MAX_QUESTIONS = 3;
+	const MAX_QUESTIONS = .7;
 
 	useEffect(() => {
 		try {
@@ -94,12 +94,24 @@ export default function Test1() {
 		// 4. Vérifier fin de test
 		if (asked.length >= MAX_QUESTIONS || asked.length >= pool.length) {
 			console.log("Finished – θ final:", newTheta);
-			const user_id = getFromStorage('user_id')
-			const competence_id = getFromStorage('current_competence_id')
+			const user_id = getFromStorage('user_id');
+			const competence_id = getFromStorage('current_competence_id');
 			console.log(competence_id);
-			finalize({ user_id, competence_id, theta, setShowPopup })
+
+			finalize({ user_id, competence_id, theta: newTheta, setShowPopup }).then(() => {
+				// Update local user object
+				const user = getFromStorage('user');
+				if (!user.thetas) user.thetas = {};
+				user.thetas[competence_id] = {
+					id: competence_id,
+					theta: newTheta,
+				};
+				saveInStorage('user', user);
+			});
+
 			return;
 		}
+
 
 		const nextQ = selectNextItem({
 			theta: newTheta,
