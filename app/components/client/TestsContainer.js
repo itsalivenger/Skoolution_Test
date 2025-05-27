@@ -11,7 +11,7 @@ export default function TestSelector() {
   const [user, setUser] = useState();
   const pathname = usePathname();
   const router = useRouter();
-  const THETA_THRESHOLD = 0.7;
+  const THETA_THRESHOLD = 1.5;
 
   useEffect(() => {
     const chapter = getFromStorage("current_chapter");
@@ -41,6 +41,11 @@ export default function TestSelector() {
     return "bg-red-500";
   };
 
+  const thetaToScore = (theta) => {
+    const clamped = Math.min(Math.max((theta + 3) / (THETA_THRESHOLD + 3), 0), 1);
+    return (clamped * 20).toFixed(1);
+  };
+
   return (
     <div className="relative">
       <Breadcrumb />
@@ -50,11 +55,12 @@ export default function TestSelector() {
           const scId = test.sous_chapitre.id;
           const theta = user?.sous_chapitre_thetas?.[scId]?.theta ?? -3;
           const progress = Math.min(Math.max((theta + 3) / (THETA_THRESHOLD + 3), 0), 1) * 100;
+          const score = thetaToScore(theta);
 
           return (
             <div
               key={idx}
-              className="p-6 bg-white rounded-xl shadow hover:shadow-lg cursor-pointer"
+              className="p-6 bg-white rounded-xl shadow hover:shadow-lg cursor-pointer relative"
               onClick={() => {
                 setSelectedTest(test);
                 setCurrentCompetence(test.current_compentence);
@@ -63,15 +69,21 @@ export default function TestSelector() {
               <h2 className="text-xl font-bold text-blue-600">{test.sous_chapitre.title}</h2>
               <p className="text-sm text-gray-500 mb-2">{test.sous_chapitre.description}</p>
 
-              <div className="h-3 w-full bg-gray-200 rounded-full mb-1">
-                <div className={`h-3 rounded-full ${getColor(theta)}`} style={{ width: `${progress}%` }}></div>
+              <div className="h-3 w-full bg-gray-200 rounded-full mb-1 relative">
+                <div
+                  className={`h-3 rounded-full ${getColor(theta)}`}
+                  style={{ width: `${progress}%` }}
+                ></div>
+                {theta >= THETA_THRESHOLD && (
+                  <div className="absolute right-1 -top-5 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded shadow">
+                    ✔ Validé
+                  </div>
+                )}
+
               </div>
 
-              <p className="text-xs">
-                Compétence: {test.current_compentence.title} – θ = {theta.toFixed(2)}{" "}
-                {theta >= THETA_THRESHOLD && (
-                  <span className="text-green-600 font-semibold ml-2">Fait</span>
-                )}
+              <p className="text-xs mt-1">
+                Compétence: {test.current_compentence.title} – Note: {score}/20{" "}
               </p>
             </div>
           );
