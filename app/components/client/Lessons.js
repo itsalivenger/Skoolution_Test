@@ -51,7 +51,7 @@ export default function Lessons() {
 				</div>
 
 				<div className="grid grid-cols-1 min-[840px]:grid-cols-2 xl:grid-cols-3 gap-8">
-					{chapitres.slice(0, 2).map((chapitre) => (
+					{chapitres.slice(0, 1).map((chapitre) => (
 						<Link
 							key={chapitre.title}
 							href={{
