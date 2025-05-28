@@ -82,7 +82,7 @@ export default function Math() {
 
         {/* card 3 */}
         <div
-          onClick={() => setShowPopup(true)}
+          // onClick={() => setShowPopup(true)}
           className="flex flex-col shadow-[3px_3px_10px_0px_rgba(0,0,0,0.1)] rounded-xs overflow-hidden"
         >
           <div className="bg-white flex justify-center items-center h-[160px]">
@@ -96,7 +96,7 @@ export default function Math() {
 
         {/* card 4 */}
         <div
-          onClick={() => setShowPopup(true)}
+          // onClick={() => setShowPopup(true)}
           className="flex flex-col shadow-[3px_3px_10px_0px_rgba(0,0,0,0.1)] rounded-xs overflow-hidden"
         >
           <div className="bg-white flex justify-center items-center h-[160px]">
