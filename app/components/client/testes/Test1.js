@@ -115,8 +115,6 @@ export default function Test1() {
 					saveInStorage('user', user);
 				}
 			});
-			
-			alert(`tetha = ${theta}`)
 
 			return;
 		}
@@ -138,7 +136,6 @@ export default function Test1() {
 		setCurrentQ(nextQ);
 		setAsked((a) => [...a, nextQ]);
 		console.log(currentQ, selectedOption, 'dedrnoo');
-		alert(`parametre b = ${currentQ.param_b}`)
 	};
 
 

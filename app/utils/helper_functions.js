@@ -70,18 +70,23 @@ export function selectNextItem({ theta, pool, askedSet }) {
 }
 
 export async function update_b({ currentQuest, theta, r, question_num }) {
-    const { param_a, param_b } = currentQuest;
-    const p = probCorrect(theta, param_a, param_b);
-    const _id = currentQuest._id;
-    const tau = calculerTau({ t: question_num });
+  const { param_a, param_b } = currentQuest;
+  const p = probCorrect(theta, param_a, param_b);
+  const _id = currentQuest._id;
+  const tau = calculerTau({ t: question_num });
 
-    const new_param_b = param_b - tau * (r - p)
+  let new_param_b = param_b - tau * (r - p);
+  new_param_b = Math.max(-3, Math.min(3, new_param_b)); // Clamp between -3 and 3
 
-    console.log(new_param_b);
-    console.log(currentQuest.param_b);
-    const response = await apiRequest({ url: '/api/update_b', method: 'PUT', body: { new_param_b, _id } });
-    console.log(response);
-    return response;
+  console.log(new_param_b);
+  console.log(currentQuest.param_b);
+  const response = await apiRequest({
+    url: '/api/update_b',
+    method: 'PUT',
+    body: { new_param_b, _id }
+  });
+  console.log(response);
+  return response;
 }
 
 export async function update_a({ currentQuest, user_id, r, theta }) {

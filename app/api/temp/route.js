@@ -15,17 +15,17 @@ export async function GET() {
 
     const changes = [];
 
-    matiereDoc.Mathematiques.chapitres.forEach(chapitre => {
-      chapitre.competences.forEach(competence => {
-        competence.sous_chapitres.forEach(sousChap => {
-          sousChap.questions.forEach(question => {
-            if (typeof question.correct_choice === 'string') {
-              changes.push({
-                questionId: question._id,
-                before: question.correct_choice,
-                after: 0,
-              });
-              question.correct_choice = 0;
+    matiereDoc.Mathematiques.chapitres.forEach((chapitre) => {
+      chapitre.competences.forEach((competence) => {
+        competence.sous_chapitres.forEach((sousChap) => {
+          sousChap.questions.forEach((question) => {
+            const before = question.param_b;
+            if (before > 3) {
+              question.param_b = 3;
+              changes.push({ questionId: question._id, before, after: 3 });
+            } else if (before < -3) {
+              question.param_b = -3;
+              changes.push({ questionId: question._id, before, after: -3 });
             }
           });
         });
@@ -35,12 +35,12 @@ export async function GET() {
     if (changes.length > 0) {
       await matieres.replaceOne({ _id: matiereDoc._id }, matiereDoc);
       return NextResponse.json({
-        message: `Updated ${changes.length} questions with string correct_choice`,
+        message: `Clamped ${changes.length} param_b values to [-3, 3]`,
         changes,
       });
     }
 
-    return NextResponse.json({ message: 'No string correct_choice found.' });
+    return NextResponse.json({ message: 'No param_b values out of range found.' });
 
   } catch (error) {
     console.error(error);

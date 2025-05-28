@@ -83,7 +83,7 @@ export default function TestSelector() {
               </div>
 
               <p className="text-xs mt-1">
-                Compétence: {test.current_compentence.title} – Note: {score}/20{" "}
+                 Note: {Math.round(score)}/20{" "}
               </p>
             </div>
           );
