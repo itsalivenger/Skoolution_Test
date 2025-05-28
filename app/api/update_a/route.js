@@ -21,6 +21,7 @@ export async function PUT(req) {
     const { question, user_id, response, current_theta } = await req.json();
     const _id = question._id;
     const param_b = question.param_b;
+    console.log({ question, user_id, response, current_theta });
 
     if (!_id || !user_id || ![0, 1].includes(response)) {
       return NextResponse.json({ error: 'Invalid payload dedrno' }, { status: 400 });

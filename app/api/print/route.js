@@ -11,7 +11,11 @@ export async function GET() {
     const db = client.db(dbName);
     const matiere = db.collection('Matiere');
 
-    const doc = await matiere.findOne({}, { projection: { 'Mathematiques.chapitres.competences.sous_chapitres.questions.question': 1 } });
+    const doc = await matiere.findOne({}, {
+      projection: {
+        'Mathematiques.chapitres.competences.sous_chapitres.questions': 1
+      }
+    });
 
     const allQuestions = [];
 
@@ -19,7 +23,7 @@ export async function GET() {
       chapitre.competences?.forEach(competence => {
         competence.sous_chapitres?.forEach(sc => {
           sc.questions?.forEach(q => {
-            if (q.question) allQuestions.push(q.question);
+            if (q) allQuestions.push(q);
           });
         });
       });

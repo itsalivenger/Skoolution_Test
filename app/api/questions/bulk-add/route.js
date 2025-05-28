@@ -58,7 +58,7 @@ export async function POST(request) {
           $push: {
             "Mathematiques.chapitres.$[chap].competences.$[comp].sous_chapitres.$[sc].questions":
               {
-                id: Date.now(),
+                _id: Date.now(),
                 question:       q.question,
                 choices:        q.choices,
                 correct_choice: q.correct_choice,
