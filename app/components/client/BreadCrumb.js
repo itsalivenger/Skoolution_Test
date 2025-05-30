@@ -32,7 +32,7 @@ export default function Breadcrumb() {
 
   return (
     <nav className="px-6 py-4 rounded-xl mt-10 mb-4" aria-label="Breadcrumb">
-      <ol className="flex flex-wrap gap-4 text-lg text-gray-600">
+      {/* <ol className="flex flex-wrap gap-4 text-lg text-gray-600">
         <li>
           <div
             // href="/"
@@ -62,7 +62,7 @@ export default function Breadcrumb() {
             )}
           </li>
         ))}
-      </ol>
+      </ol> */}
     </nav>
   );
 }
