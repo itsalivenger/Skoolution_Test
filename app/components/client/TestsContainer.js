@@ -50,6 +50,10 @@ export default function TestSelector() {
     <div className="relative">
       <Breadcrumb />
 
+      <div className="text-center text-red-600 font-semibold text-lg my-4">
+        Veuillez répondre à tous les tests suivants
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {tests.map((test, idx) => {
           const scId = test.sous_chapitre.id;
@@ -66,7 +70,7 @@ export default function TestSelector() {
                 setCurrentCompetence(test.current_compentence);
               }}
             >
-              <h2 className="text-xl font-bold text-blue-600">{test.sous_chapitre.title}</h2>
+              <h2 className="text-xl font-bold text-blue-600">{idx + 1}-{test.sous_chapitre.title}</h2>
               <p className="text-sm text-gray-500 mb-2">{test.sous_chapitre.description}</p>
 
               <div className="h-3 w-full bg-gray-200 rounded-full mb-1 relative">
@@ -83,7 +87,7 @@ export default function TestSelector() {
               </div>
 
               <p className="text-xs mt-1">
-                 Note: {Math.round(score)}/20{" "}
+                Note: {Math.round(score)}/20{" "}
               </p>
             </div>
           );

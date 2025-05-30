@@ -53,12 +53,12 @@ export default function Breadcrumb() {
                 {label}
               </span>
             ) : (
-              <Link
+              <div
                 href={href}
                 className="text-blue-600 hover:text-blue-800 font-medium"
               >
                 {label}
-              </Link>
+              </div>
             )}
           </li>
         ))}

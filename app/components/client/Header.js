@@ -19,9 +19,9 @@ export default function Header() {
 					<div className="flex justify-end">
 						<button className="bg-skblue text-white flex items-center justify-center gap-2 px-1.5 md:py-3 md:px-6 h-9 md:h-10 w-9 md:w-auto rounded-full md:rounded-none cursor-pointer">
 							<Pencil size={18} />
-							<span className="hidden md:inline text-nowrap">
+							{/* <span className="hidden md:inline text-nowrap">
 								2ème année Bac PC/SVT
-							</span>
+							</span> */}
 						</button>
 					</div>
 					<div className="flex justify-end">
@@ -32,7 +32,7 @@ export default function Header() {
 					</div>
 					<div className="w-9 flex justify-end">
 						<img
-							src="/sk/testimony_4.webp"
+							src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png?20170328184010"
 							alt="Profile"
 							className="w-9 h-9 border-2 border-skblue rounded-full"
 						/>

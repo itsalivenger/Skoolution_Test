@@ -75,13 +75,13 @@ export default function Math() {
             <IExamMultipleChoiceOutline width={90} height={90} className="text-[#4000A6]" />
           </div>
           <div className="bg-[#4000A6] text-white p-3 py-5 flex flex-col gap-0.5">
-            <h3 className="font-semibold">Leçons</h3>
-            <p className="text-sm text-neutral-200">12 Leçon</p>
+            <h3 className="font-semibold">Tests</h3>
+            <p className="text-sm text-neutral-200">7 Tests</p>
           </div>
         </div>
 
         {/* card 3 */}
-        <div
+        {/* <div
           // onClick={() => setShowPopup(true)}
           className="flex flex-col shadow-[3px_3px_10px_0px_rgba(0,0,0,0.1)] rounded-xs overflow-hidden"
         >
@@ -92,10 +92,10 @@ export default function Math() {
             <h3 className="font-semibold">Contrôles</h3>
             <p className="text-sm text-neutral-200">18 Contrôle</p>
           </div>
-        </div>
+        </div> */}
 
         {/* card 4 */}
-        <div
+        {/* <div
           // onClick={() => setShowPopup(true)}
           className="flex flex-col shadow-[3px_3px_10px_0px_rgba(0,0,0,0.1)] rounded-xs overflow-hidden"
         >
@@ -106,7 +106,7 @@ export default function Math() {
             <h3 className="font-semibold">Examens nationaux</h3>
             <p className="text-sm text-neutral-200">25 Examen</p>
           </div>
-        </div>
+        </div> */}
       </div>
 
       {/* popup */}

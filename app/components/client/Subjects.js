@@ -16,7 +16,7 @@ export default function Subjects() {
 					</p>
 				</div>
 				{/* Filter */}
-				<div className="hidden min-[500px]:flex gap-2 mb-5">
+				{/* <div className="hidden min-[500px]:flex gap-2 mb-5">
 					<div className="w-26 cursor-pointer hover:text-white hover:bg-skblue transition-all duration-300 rounded-xs text-center py-2 bg-skblue text-white border border-neutral-200">
 						Toutes
 					</div>
@@ -29,7 +29,7 @@ export default function Subjects() {
 					<div className="w-26 cursor-pointer hover:text-white hover:bg-skblue transition-all duration-300 rounded-xs text-center p-2 bg-white border border-neutral-200">
 						Humanités
 					</div>
-				</div>
+				</div> */}
 				{/* Cards */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 					{/* Card One */}
@@ -49,7 +49,7 @@ export default function Subjects() {
 						</div>
 					</Link>
 					{/* Card Two */}
-					<Link
+					{/* <Link
 						href={`#`}
 						className="flex flex-col flex-grow-1 shadow-[3px_3px_10px_0px_rgba(0,_0,_0,_0.1)] rounded-xs overflow-hidden"
 					>
@@ -60,9 +60,9 @@ export default function Subjects() {
 							<h3 className="font-semibold">Physique</h3>
 							<p className="text-sm text-neutral-200">7 Leçon</p>
 						</div>
-					</Link>
+					</Link> */}
 					{/* Card Three */}
-					<Link
+					{/* <Link
 						href={`#`}
 						className="flex flex-col flex-grow-1 shadow-[3px_3px_10px_0px_rgba(0,_0,_0,_0.1)] rounded-xs overflow-hidden"
 					>
@@ -73,9 +73,9 @@ export default function Subjects() {
 							<h3 className="font-semibold">Chimie</h3>
 							<p className="text-sm text-neutral-200">8 Leçon</p>
 						</div>
-					</Link>
+					</Link> */}
 					{/* Card Four */}
-					<Link
+					{/* <Link
 						href={`#`}
 						className="flex flex-col flex-grow-1 shadow-[3px_3px_10px_0px_rgba(0,_0,_0,_0.1)] rounded-xs overflow-hidden"
 					>
@@ -86,9 +86,9 @@ export default function Subjects() {
 							<h3 className="font-semibold">S.V.T</h3>
 							<p className="text-sm text-neutral-200">9 Leçon</p>
 						</div>
-					</Link>
+					</Link> */}
 					{/* Card Five */}
-					<Link
+					{/* <Link
 						href={`#`}
 						className="flex flex-col flex-grow-1 shadow-[3px_3px_10px_0px_rgba(0,_0,_0,_0.1)] rounded-xs overflow-hidden"
 					>
@@ -99,9 +99,9 @@ export default function Subjects() {
 							<h3 className="font-semibold">Anglais</h3>
 							<p className="text-sm text-neutral-200">7 Leçon</p>
 						</div>
-					</Link>
+					</Link> */}
 					{/* Card Six */}
-					<Link
+					{/* <Link
 						href={`#`}
 						className="flex flex-col flex-grow-1 shadow-[3px_3px_10px_0px_rgba(0,_0,_0,_0.1)] rounded-xs overflow-hidden"
 					>
@@ -112,7 +112,7 @@ export default function Subjects() {
 							<h3 className="font-semibold">Philosophie</h3>
 							<p className="text-sm text-neutral-200">4 Leçon</p>
 						</div>
-					</Link>
+					</Link> */}
 				</div>
 			</div>
 		</section>
